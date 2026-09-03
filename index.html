@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#4A2C6D">
+<title>TOEIC Speaking 실전 모의고사</title>
+<style>
+:root{
+  --purple:#4A2C6D; --purple2:#6B4B96; --ink:#1E1B24; --muted:#6F6A7A;
+  --bg:#EDEBF1; --card:#FFFFFF; --cream:#F6F1E7; --line:#D9D4E2;
+  --timer-label:#111; --red:#C0392B; --green:#2E7D5B;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,"SF Pro Text","Helvetica Neue",Roboto,"Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+  -webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:12px 18px}
+.app{max-width:760px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.hidden{display:none!important}
+
+/* ── home ── */
+.home{padding:28px 20px 40px;flex:1}
+.brand{color:var(--purple);font-weight:800;letter-spacing:.02em;font-size:13px;text-transform:uppercase}
+.home h1{margin:6px 0 4px;font-size:28px;line-height:1.15}
+.home .sub{color:var(--muted);margin:0 0 26px;font-size:14px}
+.sec{background:var(--card);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 1px 2px rgba(30,27,36,.06)}
+.sec h2{margin:0 0 12px;font-size:15px;color:var(--purple)}
+.seg{display:flex;background:var(--bg);border-radius:10px;padding:4px;gap:4px}
+.seg button{flex:1;background:transparent;color:var(--muted);padding:10px;font-weight:600}
+.seg button.on{background:var(--card);color:var(--purple);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
+.grid button{background:var(--bg);color:var(--ink);padding:12px 0;font-weight:700;font-variant-numeric:tabular-nums}
+.grid button.on{background:var(--purple);color:#fff}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{background:var(--bg);color:var(--muted);padding:9px 14px;font-weight:600}
+.chips button.on{background:var(--purple2);color:#fff}
+.row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.row .l{font-size:15px}.row .d{font-size:12px;color:var(--muted);margin-top:2px}
+.sw{width:50px;height:30px;border-radius:15px;background:#CFCAD9;position:relative;padding:0;flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s}
+.sw.on{background:var(--green)}.sw.on::after{left:23px}
+.start{width:100%;background:var(--purple);color:#fff;font-size:18px;font-weight:700;padding:16px;margin-top:6px}
+.note{font-size:12px;color:var(--muted);line-height:1.6;margin-top:14px}
+
+/* ── test screen ── */
+.test{flex:1;display:flex;flex-direction:column}
+.bar{background:linear-gradient(90deg,var(--purple),var(--purple2));color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-size:13px;font-weight:600}
+.bar .mid{font-size:15px}
+.bar .src{opacity:.75;font-weight:500}
+.status{background:#FFF4D6;color:#7A5A00;font-size:13px;font-weight:600;text-align:center;padding:6px}
+.rec .q{font-size:14px;line-height:1.5;color:var(--ink);margin:4px 0 8px}
+.rec .q ul{margin:4px 0 0;padding-left:18px}
+.rec details{margin:4px 0 8px}.rec summary{font-size:12px;color:var(--purple);cursor:pointer}
+.rec .info{font-size:13px;padding:10px;margin-top:6px}
+.stage{flex:1;padding:16px 16px 12px;overflow:auto}
+.dir{background:var(--cream);border-radius:12px;padding:18px}
+.dir h3{margin:0 0 10px;font-size:19px;text-align:center}
+.dir p{margin:0;font-size:16px;line-height:1.6}
+.dir b{font-weight:700}
+.qtext{font-size:19px;line-height:1.55;margin:0}
+.qtext.small{font-size:16px}
+.opts{margin:10px 0 0 4px;padding-left:18px;font-size:17px;line-height:1.6}
+.tail{margin-top:14px;font-size:16px;color:var(--ink)}
+.intro{background:#EFECF5;border-left:4px solid var(--purple2);padding:12px 14px;border-radius:8px;font-size:15px;line-height:1.55;margin-bottom:14px}
+.intro .lab{font-size:11px;font-weight:700;color:var(--purple2);letter-spacing:.06em;margin-bottom:4px}
+.pic{border:2px dashed var(--line);border-radius:14px;padding:34px 16px;text-align:center}
+.pic .ref{font-size:30px;font-weight:800;color:var(--purple);margin:4px 0}
+.pic .en{color:var(--muted);font-size:14px}
+.info{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;font-size:15px;line-height:1.5}
+.info p{margin:3px 0}.info p.t{font-weight:800;font-size:17px;text-align:center;margin:0 0 6px}
+.info table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
+.info th{background:#EFECF5;font-weight:700;text-align:left}
+.info th,.info td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.info ul{margin:8px 0 0;padding-left:18px}
+.info del{color:var(--muted)}
+.qbox{margin-top:14px;background:#F4F2F8;border-radius:10px;padding:12px 14px}
+.qbox .lab{font-size:11px;font-weight:700;color:var(--purple2);letter-spacing:.06em;margin-bottom:4px}
+
+.timers{display:flex;gap:12px;justify-content:center;padding:6px 16px 10px}
+.tm{flex:1;max-width:190px;text-align:center;opacity:.45;transition:opacity .2s}
+.tm.on{opacity:1}
+.tm .lab{background:var(--timer-label);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;padding:6px 4px;border-radius:4px 4px 0 0}
+.tm .val{background:#fff;border:1px solid #888;border-top:0;font-size:24px;font-variant-numeric:tabular-nums;padding:6px 4px;border-radius:0 0 4px 4px;font-weight:600}
+.tm.on.rec .lab{background:var(--red)}
+.tm.on.last .val{color:var(--red)}
+.ctrl{display:flex;gap:8px;padding:0 16px 16px}
+.ctrl button{flex:1;background:#fff;color:var(--purple);font-weight:700;border:1px solid var(--line)}
+.ctrl button.quit{flex:0 0 auto;color:var(--red)}
+.ctrl button.primary{background:var(--purple);color:#fff;border-color:var(--purple)}
+.recdot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--red);margin-right:6px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+@media (prefers-reduced-motion:reduce){.recdot{animation:none}}
+
+/* ── end ── */
+.end{padding:24px 20px 40px;flex:1}
+.end h1{font-size:24px;margin:0 0 4px}
+.reclist{margin-top:14px}
+.rec{background:var(--card);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.rec .t{font-weight:700;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.rec .t span{font-size:12px;color:var(--muted);font-weight:500}
+.rec audio{width:100%;height:36px}
+.rec a{font-size:13px;color:var(--purple)}
+.end .btns{display:flex;gap:10px;margin-top:20px}
+.end .btns button{flex:1;font-weight:700}
+.end .btns .primary{background:var(--purple);color:#fff}
+.end .btns .ghost{background:#fff;color:var(--purple);border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HOME -->
+<section id="home" class="home">
+  <div class="brand">TOEIC Speaking</div>
+  <h1>실전 모의고사</h1>
+  <p class="sub">1~25회 · Q3~Q11 · 실제 시험 시간 진행</p>
+
+  <div class="sec">
+    <h2>모드</h2>
+    <div class="seg">
+      <button id="mode-single" class="on" onclick="setMode('single')">회차별</button>
+      <button id="mode-mix" onclick="setMode('mix')">회차 섞기</button>
+    </div>
+    <div id="testgrid" class="grid"></div>
+    <div id="mixnote" class="note hidden">Part마다 서로 다른 회차에서 무작위로 뽑는다. 각 문제에 출처 회차가 표시된다.</div>
+  </div>
+
+  <div class="sec">
+    <h2>파트</h2>
+    <div class="chips" id="parts">
+      <button data-p="2" class="on">Part 2 사진</button>
+      <button data-p="3" class="on">Part 3 인터뷰</button>
+      <button data-p="4" class="on">Part 4 표</button>
+      <button data-p="5" class="on">Part 5 의견</button>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>설정</h2>
+    <div class="row"><div><div class="l">녹음</div><div class="d">답변 시간 동안 자동 녹음, 끝나면 다시 듣기</div></div><button id="opt-rec" class="sw on" onclick="toggle(this)"></button></div>
+    <div class="row"><div><div class="l">질문 음성 읽기</div><div class="d">실제 시험처럼 질문·도입문을 영어 음성으로 읽어준 뒤 준비 시간 시작 (Q10은 두 번)</div></div><button id="opt-tts" class="sw on" onclick="toggle(this)"></button></div>
+    <div class="row"><div><div class="l">비프음</div><div class="d">답변 시작·종료 신호음</div></div><button id="opt-beep" class="sw on" onclick="toggle(this)"></button></div>
+    <div class="row"><div><div class="l">Part 4 질문 텍스트 표시</div><div class="d">끄면 표만 보이고 질문은 안 보임 (실제 시험과 동일)</div></div><button id="opt-showq" class="sw on" onclick="toggle(this)"></button></div>
+  </div>
+
+  <button class="start" onclick="startTest()">시험 시작</button>
+  <p class="note">Part 2 사진은 화면에 없다. "교재 N회 Q3" 안내가 뜨면 교재의 해당 사진을 보고 답한다.<br>녹음은 이 화면을 닫으면 사라지니 필요한 것은 결과 화면에서 저장한다.<br>홈 화면에 추가하면 앱처럼 실행된다.</p>
+</section>
+
+<!-- TEST -->
+<section id="test" class="test hidden">
+  <div class="bar"><span id="bar-l">Actual Test 1</span><span class="mid" id="bar-m">Question 3 of 11</span><span>TOEIC Speaking</span></div>
+  <div class="status hidden" id="status"></div>
+  <div class="stage" id="stage"></div>
+  <div class="timers">
+    <div class="tm" id="tm-prep"><div class="lab">PREPARATION TIME</div><div class="val" id="v-prep">00:00:45</div></div>
+    <div class="tm" id="tm-resp"><div class="lab">RESPONSE TIME</div><div class="val" id="v-resp">00:00:30</div></div>
+  </div>
+  <div class="ctrl">
+    <button class="quit" onclick="quit()">종료</button>
+    <button id="btn-pause" onclick="togglePause()">일시정지</button>
+    <button class="primary" id="btn-next" onclick="skip()">다음 →</button>
+  </div>
+</section>
+
+<!-- END -->
+<section id="end" class="end hidden">
+  <h1>시험 종료</h1>
+  <p class="sub" id="end-sub"></p>
+  <div class="reclist" id="reclist"></div>
+  <div class="btns">
+    <button class="ghost" onclick="goHome()">홈</button>
+    <button class="ghost hidden" id="btn-retry" onclick="startTest(true)">이 시험 다시</button>
+    <button class="primary" id="btn-new" onclick="startTest()">같은 설정으로 다시</button>
+  </div>
+</section>
+
+</div>
+<script id="data" type="application/json">[
+ {
+  "n": 1,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you watched video clips online? Where were you?"
+    },
+    "6": {
+     "text": "Would you consider paying for an online video platform that doesn't show any advertisements? Why or why not?"
+    },
+    "7": {
+     "text": "Which of the following video clips would capture your attention the most? Why?",
+     "options": [
+      "Video clips about learning English",
+      "Video clips focused on entertainment",
+      "Video clips discussing finance-related topics"
+     ]
+    }
+   },
+   "intro": "Imagine that a marketing company is doing research in your country. You have agreed to participate in a telephone interview about video clips."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "Where and on what date will the online marketing conference take place?"
+    },
+    "9": {
+     "text": "As far as I remember, the registration fee is 15 dollars per day if I sign up on-site. Is this correct?",
+     "correction": true
+    },
+    "10": {
+     "text": "I am interested in attending lectures. Can you tell me all the details of the lectures in the schedule?"
+    }
+   },
+   "intro": "Hello, I'm deeply interested in the upcoming online marketing conference, but I don't have enough information. Can you provide me with some details?",
+   "info": "**Online Marketing Conference Convention**\nSummit Convention Center | April 4th – 5th\n**April 4th**\n| Time | Session | Presenter |\n|---|---|---|\n| 10:00 – 11:00 a.m. | Workshop: Building an Online Presence | Isabella Smith |\n| 11:00 a.m. – noon | Lecture: Online Data Protection | Kim Johnson |\n| noon – 1:00 p.m. | Presentation: Using Social Media for Marketing | Emily Pond |\n**April 5th**\n| Time | Session | Presenter |\n|---|---|---|\n| 11:00 a.m. – noon | Demonstration: Practical Use of Online Media for Marketers | Joe Murat |\n| noon – 1:00 p.m. | Lecture: Providing Customer Service Online | Chris Garrison |\n| 1:00 – 2:00 p.m. | Presentation: Online Marketing for Small Business Owners | Justin Brown |\n- Early Registration: $15/day (Before April 1st)\n- Registration: $30/day (On-site)"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Which of the following skills do you think are most important for children to learn from their parents?",
+     "options": [
+      "Money management skills",
+      "Polite manners",
+      "Developing good habits"
+     ],
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 2,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "What time of the day do you usually check your text messages? Where do you do so?"
+    },
+    "6": {
+     "text": "Do you prefer to send text messages or emails when you send business-related messages? Why?"
+    },
+    "7": {
+     "text": "Do you typically send text messages to individuals or groups of people? Why?"
+    }
+   },
+   "intro": "Imagine that a lifestyle magazine is conducting research in your area. You have agreed to participate in a telephone interview about text messages."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What time does the trail open and close to cyclists every day?"
+    },
+    "9": {
+     "text": "I heard that the admission fee is free for everyone. Am I right?",
+     "correction": true
+    },
+    "10": {
+     "text": "I've just started to learn cycling. Can you recommend any bicycle trail courses for people like me?"
+    }
+   },
+   "intro": "Hello, I'm Sam Anderson. I'm interested in cycling on the Riverside City Bicycle Trail and would like to learn more about it. Can you answer some of my questions?",
+   "info": "**Riverside City Bicycle Trail**\nOpen to cyclists every day from 6 a.m. to 9 p.m.\n| Trail Course | Difficulty | Length |\n|---|---|---|\n| Green River Trail | Intermediate | 5 miles |\n| Boston Path Trail | Easy | 2.3 miles |\n| Riverside Trail | Easy | 3 miles |\n| Nature Loop Trail | Advanced | 7.8 miles |\n- Residents: free\n- Non-residents: $3"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "If a school was considering taking students on a school trip, which location would be best for the students?",
+     "options": [
+      "A history museum",
+      "A company tour",
+      "An amusement park"
+     ],
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 3,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "Do you like to visit amusement parks? How frequently do you visit them?"
+    },
+    "6": {
+     "text": "What do you like to do when you visit amusement parks?"
+    },
+    "7": {
+     "text": "If you were going to spend the whole day at an amusement park, which of the following items would you bring?",
+     "options": [
+      "Funny costume",
+      "A cardigan",
+      "A portable phone battery charger"
+     ]
+    }
+   },
+   "intro": "Imagine that a Canadian marketing company is doing research in your country. You have agreed to participate in a telephone interview about amusement parks."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "Could you tell me what date the interviews will be held, and where they will take place?"
+    },
+    "9": {
+     "text": "I heard that Shawn Vida is coming to interview for the Lighting Designer position at 2:00 p.m. Is that right?",
+     "correction": true
+    },
+    "10": {
+     "text": "We urgently need to fill the Acting Director position. Could you give me all the details about the applicants who are applying for the Acting Director position?"
+    }
+   },
+   "intro": "Hello, I'm Sandy from the HR department. I'm supposed to lead the interviews, but I haven't received the schedule yet.",
+   "info": "**Interview Schedule for Staff at American Theater**\nMay 10th, Meeting Room C\n| Time | Applicant | Position | Years of Experience |\n|---|---|---|---|\n| 10:15 – 11:00 a.m. | Sarah Wang | Music Director | 3 years |\n| 11:00 – 11:45 a.m. | Anne Hey | Lighting Designer | 5 years |\n| 11:45 a.m. – 12:15 p.m. | Julian Jensen | Acting Director | 4 years |\n| ~~2:00 – 2:45 p.m.~~ | ~~Shawn Vida~~ | ~~Lighting Designer~~ | ~~2 years~~ (canceled) |\n| 2:45 – 3:15 p.m. | Paul Watts | Acting Director | 3 years |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you agree or disagree with the following statement?",
+     "tail": "**Technological advances will bring about improvements to the music industry in the future.** Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 4,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you went to a house party? How did you like it?"
+    },
+    "6": {
+     "text": "If you were planning a house party, who would you choose to join you?"
+    },
+    "7": {
+     "text": "Do you prefer to make your own food or use a catering service when you throw a party?"
+    }
+   },
+   "intro": "Imagine that your friend is planning a house party. You and your friend are having a telephone conversation about house parties."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What time do the questions and answers start, and who will lead the session?"
+    },
+    "9": {
+     "text": "I have a video conference at 1 p.m. Will I miss anything if I have to step out for a minute?",
+     "correction": false
+    },
+    "10": {
+     "text": "I'm going to work on beauty coverage for this month's issue. Can you tell me all the details of agenda items related to beauty coverage?"
+    }
+   },
+   "intro": "Hello, I will be attending the New York Fashion Magazine Monthly Meeting and need you to give me some details before the meeting.",
+   "info": "**New York Fashion Magazine Monthly Meeting Conference**\nLocation: Conference Room A\n| Time | Session | Presenter |\n|---|---|---|\n| 8:00 – 8:30 a.m. | Opening | Chandler Roberts |\n| 8:30 – 9:00 a.m. | Beauty Coverage: Best Cosmetic Brands<br>· completed: selecting brands<br>· needed: interviews | Adam Stevenson |\n| 9:00 – 9:30 a.m. | Monthly sales report | Michael Yang |\n| 9:30 – 10:00 a.m. | Celebrity Style: Celebrity's Pick<br>· completed: celebrity interviews<br>· needed: editing | David Hudson |\n| 10:00 – 11:00 a.m. | Questions and Answers | Cady Dalton |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you think parents should limit the time their children use the internet?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 5,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "Have you ever played any musical instruments? When was the last time you played an instrument?"
+    },
+    "6": {
+     "text": "What kind of musical instrument do you like the most? Why?"
+    },
+    "7": {
+     "text": "What do you think is the most important quality of a concert?",
+     "options": [
+      "Amazing musicians",
+      "A good music director",
+      "The concert hall"
+     ]
+    }
+   },
+   "intro": "Imagine that a British marketing firm is doing research in your country about playing musical instruments. You have agreed to participate in a telephone interview."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What is the first movie on the schedule, and when will it be showing?"
+    },
+    "9": {
+     "text": "I love horror movies, and I was told that one horror movie will be showing at the festival. Is this correct?",
+     "correction": true
+    },
+    "10": {
+     "text": "My wife is into thrillers these days, and I heard that you are running several thriller movies at the festival. Can you give me all the details of the thrillers running at the festival?"
+    }
+   },
+   "intro": null,
+   "info": "**Boston City Film Festival**\n| Date | Movie Title | Genre | Director |\n|---|---|---|---|\n| June 17th | Monster | Action | Jamie Hopkins |\n| | ~~The Sin of Devils~~ (canceled) | ~~Horror~~ | ~~Gene Bradshaw~~ |\n| June 18th | Forgotten Village | Thriller | Daniel Abby |\n| | The Loved Ones | Drama | Thomas West |\n| June 19th | Never Look Back | Thriller | Charlie McAdams |\n| | Way Back to Love | Romance | Peter Jackson |\n| | Last Christmas | Drama | Jane Park |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Which of the following do you think is the best use of time?",
+     "options": [
+      "Reading books",
+      "Watching movies",
+      "Traveling overseas"
+     ],
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 6,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you went on a picnic? Who were you with?"
+    },
+    "6": {
+     "text": "Would you prefer to go on a picnic with a large group of people or with a few people?"
+    },
+    "7": {
+     "text": "If you were to go on a picnic, would you prefer to do it at a park or in a backyard?"
+    }
+   },
+   "intro": "Imagine that your friend is planning to go on a picnic. You are having a telephone conversation about going on a picnic."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What date will the International Architecture Conference be held? When is the last day people can sign up for the event?"
+    },
+    "9": {
+     "text": "I was asked to give a brief presentation at the event, but I only have time in the morning. I need at least 50 minutes. Can we fit this into the morning schedule?",
+     "correction": false
+    },
+    "10": {
+     "text": "One of my colleagues is deeply interested in the discussions at this event. Could you give me all the information about the discussion sessions scheduled during the conference?"
+    }
+   },
+   "intro": null,
+   "info": "**International Architecture Conference**\nAlpha Events Hall · Friday, December 2nd\nDeadline for registration: November 20th\n| Time | Session | Presenter |\n|---|---|---|\n| 9:00 – 10:00 a.m. | Welcoming Speech | Dennis Christopher (President of City Architect Community) |\n| 10:00 – 11:00 a.m. | Video: Future of Architecture | — |\n| 11:00 a.m. – noon | ~~Presentation: Collaborating with Artists~~ → Rescheduled to 3rd, 1:00 p.m. | Kristine Brook |\n| noon – 1:00 p.m. | Discussion: Elements of Good Architecture | Donna Wattson (Professor at Bringston University) |\n| 1:00 – 2:00 p.m. | Lunch | — |\n| 2:00 – 3:00 p.m. | Discussion: Blending Technologies into Architecture | Jim Reynolds (Executive Director of SJ Company) |\n| 3:00 – 4:00 p.m. | Tour: Landmark of the City | — |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you think managers should be strict to lead a team to success?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 7,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you traveled abroad to visit a famous place? Who did you go with?"
+    },
+    "6": {
+     "text": "If you had to visit another country to visit a famous place, would you like to book a hotel or stay at a friend's or relative's house?"
+    },
+    "7": {
+     "text": "Other than visiting famous places, which of the following would you prefer to do when you travel abroad?",
+     "options": [
+      "Go shopping",
+      "Meet local people",
+      "Try local food"
+     ]
+    }
+   },
+   "intro": "Imagine that an American marketing firm is doing research in your country. You have agreed to participate in a telephone interview about traveling."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What date does the Art Exhibition take place and when does it start and end?"
+    },
+    "9": {
+     "text": "I heard that the Cherry Blossom Festival is scheduled to take place on April 2nd. Can you confirm that?",
+     "correction": true
+    },
+    "10": {
+     "text": "I'm planning to visit the park with my 8-year-old son. Could you give me details of the events for kids about that age?"
+    }
+   },
+   "intro": null,
+   "info": "**Blue Mountain Park**\nApril Events Schedule\n| Date | Time | Event | Notes |\n|---|---|---|---|\n| April 3 | 5 – 9 p.m. | Live Concert | All ages |\n| April 4 | 1 – 3 p.m. | Face Painting Competition | Ages 6 – 11 |\n| April 10 | 3 – 8 p.m. | Art Exhibition | All ages |\n| April 13 | 7 – 10 p.m. | Night Light Show | All ages |\n| April 15 | 2 – 5 p.m. | Parade for Kids | Ages 3 – 12 |\n| April 20 | 1 – 8 p.m. | Cherry Blossom Festival | All ages |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Some people like to throw away clothes they no longer use and buy new ones while others prefer to save old clothes. Which one do you prefer?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 8,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "Have you ever attended a driving school? How did you like it?"
+    },
+    "6": {
+     "text": "Do you think teenagers should be allowed to drive?"
+    },
+    "7": {
+     "text": "What do you think is the best way to learn how to drive?",
+     "options": [
+      "Learning from a family member",
+      "Training by themselves",
+      "Learning from an expert"
+     ]
+    }
+   },
+   "intro": "Imagine that an Australian marketing firm is doing research in your country. You have agreed to participate in a telephone interview about driving."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "Where is the conference being held and on what date will it be held?"
+    },
+    "9": {
+     "text": "Last year, I was told to prepare my own lunch. Will it be the same this year?",
+     "correction": false
+    },
+    "10": {
+     "text": "I'd like to know about the seminars I'm scheduled to lead. Could you tell me all the details of the seminars that I have to lead? Again, this is Ash Dobrik."
+    }
+   },
+   "intro": "Hello, I'm Ash Dobrik. I've just been invited to the Pharmaceutical Association Conference as a speaker, but I don't have much information about the event. Can I ask a few questions regarding the conference?",
+   "info": "**Pharmaceutical Association Conference**\nNebraska University\n**November 20th**\n| Session | Speaker |\n|---|---|\n| Workshop: History of Medicine | Simon Butler |\n| Seminar: the Development of a New Medicine | Ash Dobrik |\n| Lunch (catered by Delimarket restaurant) | |\n**November 21st**\n| Session | Speaker |\n|---|---|\n| Panel discussion: Adverse Effects of 5 Newly Developed Medicine | Emily Panda |\n| Demonstration: Research Practices | Laura Chang |\n| Seminar: General Information on the Current Pharmaceutical Market | Ash Dobrik |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Which of the following skills do you think a good colleague should have?",
+     "options": [
+      "Communication skills",
+      "Willingness to help others",
+      "Stress management skills"
+     ],
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 9,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "What was the last thing you bought from a vending machine in your school or workplace?"
+    },
+    "6": {
+     "text": "Would you ever want to buy things such as earphones or chargers from a vending machine?"
+    },
+    "7": {
+     "text": "If you were going to buy some snacks, would you be more likely to use a vending machine or to go to a convenience store? Why?"
+    }
+   },
+   "intro": "Imagine that a British marketing firm is doing research in your country. You have agreed to participate in a telephone interview about vending machines."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What time do I leave for this business trip? What time is my flight to New York?"
+    },
+    "9": {
+     "text": "I'd like to review copywriting of the new advertisement. Do I have some time to do that?",
+     "correction": false
+    },
+    "10": {
+     "text": "I know that I have several meetings on Tuesday. Could you tell me about the meetings I have on Tuesday?"
+    }
+   },
+   "intro": "Hello, I'm Daniel Bradshaw. I left my schedule sheet in my office, so I would like to ask you a few questions about my schedule.",
+   "info": "**Daniel Bradshaw — Apex Advertising Company**\nSchedule for Tuesday, March 2nd\n| Time | Item |\n|---|---|\n| 9:00 – 10:00 a.m. | Meeting – Robert Son (Director, Simple Advertising) |\n| 10:00 – 11:00 a.m. | Video Conference – Cindy West (Marketing Manager, Summit Advertising) |\n| 11:00 a.m. – noon | New Advertisement Copywriting Reviews |\n| noon – 1:00 p.m. | Lunch |\n| 1:00 – 2:00 p.m. | Meeting – Shawn Kim (HR Manager) / Topic: Selecting the Best Candidates for the Marketing Director Position |\n| 2:00 – 3:00 p.m. | Leave the office for a business trip (Flight to New York at 5 p.m.) |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you agree or disagree with the following statement?",
+     "tail": "**The government should provide financial support to maintain historical buildings and artifacts.** Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 10,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "Do you have any neighbors you are close to? How did you get to know them?"
+    },
+    "6": {
+     "text": "How do you like your neighborhood? Why?"
+    },
+    "7": {
+     "text": "What do you think is the most important quality of good neighbors?",
+     "options": [
+      "How friendly they are",
+      "How close they live",
+      "How quiet they are"
+     ]
+    }
+   },
+   "intro": "Imagine that a lifestyle magazine is conducting research in your area. You have agreed to participate in a telephone interview about your neighbors and neighborhood."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "When did Mr. Owen get his master's degree, and what school did he get it from?"
+    },
+    "9": {
+     "text": "We have many interviews with interviewees from Germany. Does it look like Mr. Owen is capable of handling those interviews?",
+     "correction": false
+    },
+    "10": {
+     "text": "Can you give me all the details of his career experience?"
+    }
+   },
+   "intro": "Hello, I'm Jane Brown in the HR department. I'm supposed to interview Luke Owen in a minute but I can't find his resume. Can I ask a few questions about Mr. Owen?",
+   "info": "**Luke Owen**\nAddress: St. Maris Avenue, West Vancouver, British Columbia\nPhone: (081) 252-1945 · Email: owen_luke22@1nyu.com\n| | |\n|---|---|\n| Desired Position | Chief Editor |\n| Education | Master of Journalism, California State University (2011)<br>Bachelor of English Literature, Southern California University (2010) |\n| Work Experience | Current Times Magazine, Editor (2019 – present)<br>New York Newspaper, Journalist (2015 – 2019) |\n| Qualification | Fluent in German, beginner-level Japanese |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you prefer to have a business meeting in person or to have a video conference?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 11,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "What is your current job? What time do you start work?"
+    },
+    "6": {
+     "text": "Would you be willing to work night shifts if a company paid you well?"
+    },
+    "7": {
+     "text": "Do you prefer to work in a busy outdoor area or in a quiet indoor area?"
+    }
+   },
+   "intro": "Imagine that a Canadian marketing firm is conducting research in your country. You have agreed to participate in a telephone interview about your job."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What time am I departing from Paris? Can you give me the flight information?"
+    },
+    "9": {
+     "text": "I want to have breakfast before returning to Paris on January 13th. Do I have to charge the cost of breakfast for myself?",
+     "correction": true
+    },
+    "10": {
+     "text": "Could you give me all the details of my return trip to Paris on the 13th?"
+    }
+   },
+   "intro": null,
+   "info": "**French Motors**\nTravel Itinerary for Collin Raynold, Vice President\n**Flight Details**\n| | Route / Flight | Time | Date |\n|---|---|---|---|\n| Depart | Paris, Master Airlines, Flight 105 | 10:30 a.m. | Jan. 10th |\n| Arrive | Los Angeles | 6:45 p.m. | |\n| Depart | Los Angeles, Master Airlines, Flight 120 | noon | Jan. 13th |\n| Arrive | Paris | 8:45 p.m. | |\n**Accommodation**\n- Vegas Hotel, Los Angeles (Suites)\n- Complimentary Breakfast Buffet\n- Free Shuttle Bus to the Los Angeles Airport"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "What are some disadvantages of always working with the same people at a company?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 12,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you visited a fair or a festival? What kind of festival was it?"
+    },
+    "6": {
+     "text": "Would you buy souvenirs when you visit a fair or a festival? Why or why not?"
+    },
+    "7": {
+     "text": "Would you like to visit more festivals or fairs in your community? Why?"
+    }
+   },
+   "intro": "Imagine that an American marketing firm is doing research in your country. You have agreed to participate in a telephone interview about festivals."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What are the dates of the conference and where is the conference being held?"
+    },
+    "9": {
+     "text": "The keynote speech started at 9 a.m. on the first day of the conference last year. Can you check that this year's keynote speech will start at 9 a.m. as well?",
+     "correction": true
+    },
+    "10": {
+     "text": "I was deeply impressed by the lectures at the conference last year. I look forward to listening to lectures again this year. Can you give me some details you have for any lectures at the conference?"
+    }
+   },
+   "intro": "Hi, this is Karen Woods. I'm going to attend the upcoming conference, but I don't have any specific details. May I ask you some questions about it?",
+   "info": "**Conference of Tourism**\nKingston Convention Center\n**Monday, June 22nd**\n| Time | Session |\n|---|---|\n| 9:30 – 10:30 a.m. | Keynote Speech: Tourism Boom in Domestic Market |\n| 10:30 – 11:30 a.m. | Lecture: Current Trends in Tourism |\n| 11:30 a.m. – 1:00 p.m. | Lunch |\n| 1:00 – 2:00 p.m. | Seminar: Current Preference in Accommodations |\n**Tuesday, June 23rd**\n| Time | Session |\n|---|---|\n| 10:00 – 11:00 a.m. | Lecture: Strategies for Developing Good Travel Packages |\n| 11:00 a.m. – noon | Conference Lunch |\n| noon – 1:00 p.m. | Panel Discussion: How to Promote Tourism |\n| 1:00 – 2:00 p.m. | Workshop: Collaborating with Other Companies |\n- Registration fee: $100"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you think having a lot of social life is more important than getting a high salary?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 13,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "If you had to buy a new smartphone, would you buy a new one or a second-hand one? Why?"
+    },
+    "6": {
+     "text": "How long have you used your own smartphone? Are you satisfied with it?"
+    },
+    "7": {
+     "text": "If you were planning to buy a new smartphone, which of the following do you think would be the most important?",
+     "options": [
+      "Sleek design",
+      "Camera performance",
+      "Brand"
+     ]
+    }
+   },
+   "intro": "Imagine that an Australian marketing firm is doing research in your area. You have agreed to participate in a telephone interview about smartphones."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What date do the summer courses begin, and when do they finish?"
+    },
+    "9": {
+     "text": "I heard that you offer classes on Sundays and Saturdays. Am I right?",
+     "correction": true
+    },
+    "10": {
+     "text": "I really enjoyed the classes taught by Samantha West because she is such a great instructor. Can you give me the details of any courses she is teaching this year?"
+    }
+   },
+   "intro": null,
+   "info": "**Dayton Community Center**\nSummer Schedule of Floral Design Courses\nJuly 1st – August 20th\n| Course | Days | Instructor |\n|---|---|---|\n| Introduction to Floral Design | Mondays | Simon Janet |\n| History of Floral Design | Tuesdays | Jane Panda |\n| Careers as a Certified Florist | Wednesdays | Samantha West |\n| Marketing in Floral Business | Thursdays | Nolan Wells |\n| Floral Design for Weddings | Fridays | Samantha West |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "If you were a new employee, what kind of training method would you prefer: attending a training session with an expert or working with an experienced employee?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 14,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "If you were to buy some clothes for a school party or company party, what kind of clothing would you buy?"
+    },
+    "6": {
+     "text": "Are there many places to buy clothes in your area? And, do you often visit them?"
+    },
+    "7": {
+     "text": "If you chose some new clothes to buy, which of the following would most likely affect your decision? Why?",
+     "options": [
+      "Samples at a store",
+      "Advertisements on social media",
+      "Recommendations from celebrities"
+     ]
+    }
+   },
+   "intro": "Imagine that a fashion magazine is conducting research in your area. You have agreed to participate in a telephone interview about buying clothes."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "Where is Wellness Sports Center located? And, when do you open?"
+    },
+    "9": {
+     "text": "My grandson is planning to take the Kids' Swimming class on Sundays. And, as far as I know, he doesn't have to bring his own swimsuit. Is that right?",
+     "correction": true
+    },
+    "10": {
+     "text": "I'm interested in taking classes for seniors. What lessons are available for seniors?"
+    }
+   },
+   "intro": "Hi, my name is Sherri Parker. I just found out about the classes offered at Wellness Sports Center, and I decided to give you a call to confirm some details. Can I ask you a few questions?",
+   "info": "**Wellness Sports Center**\nCentral Street\nOperating Hours: 7 a.m. – 10 p.m.\n| Time | Days | Classes | Material |\n|---|---|---|---|\n| 10 – 11 a.m. | Mondays | Zumba for Beginners | towels |\n| 8 – 9 a.m. | Wednesdays | Senior Mat Pilates | mat |\n| 12 – 1 p.m. | Thursdays | Mini Golf for Children | golf club |\n| 6 – 7 p.m. | Wednesdays | Circuit Training for Adults | towels |\n| 8 – 9 p.m. | Saturdays | Senior Aqua Fit | swimsuits |\n| 10 – 11 a.m. | Sundays | Kids' Swimming | swimsuits |\n- All students are required to prepare materials for their classes."
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "What do you think is the best reward a company can give to dedicated employees to recognize their hard work?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 15,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you held a party? Where did you hold the party?"
+    },
+    "6": {
+     "text": "If you were planning to hold a party, whom would you like to invite? Why?"
+    },
+    "7": {
+     "text": "Do you prefer to make your own food for a party or use a catering service?"
+    }
+   },
+   "intro": "Imagine that a Canadian marketing firm is doing research in your area. You have agreed to participate in a telephone interview about holding a party."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What date is the movie screening taking place? What age is suitable for it?"
+    },
+    "9": {
+     "text": "I'm planning to attend Book Club. What kind of materials should I bring with me to the event?",
+     "correction": true
+    },
+    "10": {
+     "text": "I heard that you offer amazing classes for amateur writers. Can you give me all the details you have regarding the upcoming classes?"
+    }
+   },
+   "intro": "Hello, I'm very interested in Denver Library events and I'm planning to attend some of the events. I have a few questions about it, though. Can you answer some of my questions?",
+   "info": "**Denver Library Events Schedule**\n| Date | Time | Event | Details |\n|---|---|---|---|\n| Feb. 25th | 10 a.m. – 12 p.m. | Book Club | Materials provided |\n| Mar. 3rd | 1 – 2 p.m. | Writing Class | |\n| Mar. 1st | 3 – 5 p.m. | Movie Screening | Ages over 15 |\n| Mar. 5th | 1 – 2 p.m. | Poetry Class | |\n| Mar. 6th | 3 – 5 p.m. | Literature Workshop | Registration required in advance |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you agree or disagree with the following statement?",
+     "tail": "**Celebrities should have a sense of responsibility.** Use specific reasons and examples to support your opinions."
+    }
+   }
+  }
+ },
+ {
+  "n": 16,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "Do you often enjoy indoor climbing? Why or why not?"
+    },
+    "6": {
+     "text": "If you were to try indoor climbing, do you think it would be better to do it in the morning or in the evening? Why?"
+    },
+    "7": {
+     "text": "If you were to take an indoor climbing lesson, which of the following would you consider most important, and why?",
+     "options": [
+      "How safe the facility is",
+      "The instructor's level of expertise",
+      "Learning with students of a similar skill level"
+     ]
+    }
+   },
+   "intro": "Imagine that a British marketing firm is doing research in your area. You have agreed to participate in a telephone interview about indoor climbing."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "When do the classes start and end? Also, where will they take place?"
+    },
+    "9": {
+     "text": "I saw that it costs $150 per class, but is there a way to get a discount?",
+     "correction": true
+    },
+    "10": {
+     "text": "My friend has never learned any music before. Are there any classes that would be good for a complete beginner like her? Can you tell me more about those?"
+    }
+   },
+   "intro": "Hi! I'm really interested in learning the flute, so I'm planning to join the Music Academy. But I couldn't find much information, so I was wondering if you could help me by answering a few questions.",
+   "info": "**Jasper Music Academy Summer Session**\nProgram Duration: May 6 – July 28\nJasper Music Center Class Schedule\n| Class Name | Days | Time | Level |\n|---|---|---|---|\n| Flute Foundations | Mondays | 4:00 p.m. – 5:00 p.m. | Beginner |\n| Clarinet Studio | Tuesdays | 5:30 p.m. – 6:30 p.m. | Intermediate |\n| Saxophone Style | Saturdays | 1:00 p.m. – 2:00 p.m. | Advanced |\n| Piano Basics | Tuesdays | 3:00 p.m. – 4:00 p.m. | Beginner |\n| Guitar Jam | Wednesdays | 4:30 p.m. – 5:30 p.m. | Intermediate |\n| Choir Class | Sundays | 2:00 p.m. – 3:30 p.m. | Advanced |\n- Standard Fee: $150 per class\n- Discounted Fee: $100 per class (Discounts available for students)"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "In your opinion, should the government invest more in clean energy, health care services, or digital infrastructer? Why?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 17,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you played a board game, and what was the name of the game?"
+    },
+    "6": {
+     "text": "What is one advantage that board games have compared to mobile games?"
+    },
+    "7": {
+     "text": "When buying a board game, which of the following is most important to you?",
+     "options": [
+      "The number of players",
+      "How fun it is",
+      "How difficult it is"
+     ]
+    }
+   },
+   "intro": "Imagine that a lifestyle magazine is doing research in your area. You have agreed to participate in a telephone interview about board games."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "When is the Mini Soccer Skills class, and what time does it begin?"
+    },
+    "9": {
+     "text": "My son wants to join one of the classes, but we don't have any balls or rackets at home. Do we need to buy any equipment?",
+     "correction": true
+    },
+    "10": {
+     "text": "My child is 7 years old. Can you tell me which class is appropriate for his age and give me some details?"
+    }
+   },
+   "intro": "Hi, I'm interested in learning more about the Future Stars Sports Camp. Before I register, I have a few questions. Could you help me out?",
+   "info": "**Future Stars Sports Camp**\nProgram Duration: May 6 – July 28\nLocation: Star Athletics Community Center\n| Date | Class Name | Time | Age Group |\n|---|---|---|---|\n| May 8 (Wed.) | Mini Soccer Skills | 4:00 p.m. – 5:00 p.m. | Ages 6 – 8 |\n| May 11 (Sat.) | Junior Basketball | 2:00 p.m. – 3:30 p.m. | Ages 15 – 19 |\n| May 15 (Wed.) | Table Tennis Fun | 4:00 p.m. – 5:00 p.m. | Ages 10 and up |\n| May 18 (Sat.) | Kids' Baseball Intro | 1:30 p.m. – 2:30 p.m. | Ages 7 – 9 |\n| May 22 (Wed.) | Youth Volleyball | 5:30 p.m. – 6:30 p.m. | Ages 15 – 19 |\n| May 25 (Sat.) | Badminton for Teens | 3:30 p.m. – 4:30 p.m. | Ages 13 – 15 |\n- Equipment Notice: All necessary sports equipment will be provided on site.\n- Participants only need to bring comfortable sportswear."
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you think it is a good idea for parents to frequently give positive feedback for small achievements or good behavior? Why or why not?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 18,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you went for a walk? Do you enjoy walking?"
+    },
+    "6": {
+     "text": "Which do you prefer: walking on a treadmill at a gym or taking a walk in the park?"
+    },
+    "7": {
+     "text": "What are the benefits of walking with a running crew or walking group?"
+    }
+   },
+   "intro": "Imagine you are talking to a friend on the phone, and you're having a conversation about walking."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What are your business hours and where are you located?"
+    },
+    "9": {
+     "text": "How many notebooks did I buy and how much did they cost?",
+     "correction": true
+    },
+    "10": {
+     "text": "Can you tell me all the details of the items that I'll be picking up, except for the notebooks?"
+    }
+   },
+   "intro": "Hello, I recently placed an order at Brown Stationery Shop, and I need some details before visiting your store for pick-up. Could you answer a few questions to confirm everything?",
+   "info": "**Brown Stationery Shop**\nBusiness Hours: Mon. - Fri., 10:00 a.m. – 7:00 p.m.\nLocation: 1001 New York Street\n| Item | Quantity | Price |\n|---|---|---|\n| Notebook | 2 | $4.00 |\n| Mechanical Pencil | 1 | $1.50 |\n| Eraser | 3 | $0.90 |\n| Highlighter Set | 1 | $3.20 |\nTotal: $9.60 (Unpaid)"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Some people say leadership is a personality trait, while others believe it can be developed through training. Do you think leadership can be learned?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 19,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you made a new friend? How did you meet that person?"
+    },
+    "6": {
+     "text": "Do you think it's easier to make friends online or in person? Why?"
+    },
+    "7": {
+     "text": "Which of the following do you think is the biggest advantage of communicating with friends online?",
+     "options": [
+      "Staying in touch more often",
+      "Feeling less pressure when talking",
+      "Sharing things more easily, like photos and links"
+     ]
+    }
+   },
+   "intro": "Imagine that a lifestyle magazine is doing research in your area. You have agreed to participate in a telephone interview about meeting people online."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "Where will the Creative Tech Design Seminar take place, and on what date does it take place?"
+    },
+    "9": {
+     "text": "Last time I attended, the buffet lunch was included. Is it free this year too?",
+     "correction": true
+    },
+    "10": {
+     "text": "I'd like to know more about the software sessions. Could you give me the detailed schedule?"
+    }
+   },
+   "intro": null,
+   "info": "**Creative Tech Design Seminar Schedule**\nLocation: Harmony Convention Center (Room B)\nDate: June 12th (Wednesday)\n| Time | Event | Speaker / Details |\n|---|---|---|\n| 9:00 – 9:30 a.m. | Registration | Check-in at the front desk |\n| 9:30 – 11:00 a.m. | Workshop: Design Thinking | Emily Park, UX Consultant |\n| 11:00 a.m. – 12:00 p.m. | Software Demonstrations | David Kim, Lead Developer |\n| 12:00 – 1:00 p.m. | Buffet Lunch | Fee: $10 per person |\n| 1:00 – 2:00 p.m. | Discussion: Creative Tools in Teams | Panels: Emily Park & Jacob Lee |\n| 2:00 – 3:00 p.m. | Software Showcase | Jacob Lee, Product Manager at Creativio |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you agree or disagree with the following statement: Using social media every day does more harm than good.",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 20,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "Have you ever taken an art class before? How did you like it?"
+    },
+    "6": {
+     "text": "Would you consider choosing a digital illustration class if you could take an art class?"
+    },
+    "7": {
+     "text": "Do you prefer learning art by watching videos or by taking in-person classes? Why?"
+    }
+   },
+   "intro": "Imagine that a Canadian marketing firm is doing research in your country. You have agreed to participate in a telephone interview about art classes."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "Could you remind me where the interviews will take place? Also, what time is the first interview scheduled for?"
+    },
+    "9": {
+     "text": "I believe we scheduled more than one interview for the QA Tester position. Could you check that for me?",
+     "correction": true
+    },
+    "10": {
+     "text": "We're currently short on front-end developers. Can you give me the full details about any interviews we have scheduled for the front-end developer role?"
+    }
+   },
+   "intro": "Hi, I'm on the hiring team at PixelCore. I'm preparing for the upcoming job interviews, but I seem to have misplaced the final schedule. Could I ask you a few questions to confirm some details? (추정 문구)",
+   "info": "**PixelCore Interview Schedule**\nDate: April 10th\nLocation: Conference Room B\n| Time | Applicant Name | Desired Position | Current Employer |\n|---|---|---|---|\n| 1:00 – 1:30 p.m. | Ethan Park | UX Designer | ByteLabs |\n| 1:30 – 2:00 p.m. | Lily Nguyen | QA Tester | SmartPath |\n| 2:00 – 2:30 p.m. | Jason Lee | Front-End Developer | CodePeak |\n| 2:30 – 3:00 p.m. | ~~Chloe Martin~~ | ~~QA Tester~~ (canceled) | ~~SoftVerse~~ |\n| 3:30 – 4:00 p.m. | Noah Kim | Front-End Developer | Innovize Tech |\n| 4:00 – 4:30 p.m. | Ava Thompson | Project Manager | AgileWorks |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Which of the following do you think is the most important benefit a company can offer to its employees?",
+     "options": [
+      "Casual dress code",
+      "Free office meals",
+      "Mental health support"
+     ],
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 21,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "How often do you read news online, and what is your favorite news site?"
+    },
+    "6": {
+     "text": "Do you prefer to check online news at home or in public places like cafés or schools?"
+    },
+    "7": {
+     "text": "Which of the following reasons best describes why you visit online news sites? And why?",
+     "options": [
+      "To stay updated on current events",
+      "To find topics for conversation",
+      "To enjoy entertainment news or lifestyle articles"
+     ]
+    }
+   },
+   "intro": "Imagine that a lifestyle magazine is preparing an article. You have agreed to participate in a telephone interview about online news."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What is the first session on the schedule, and when does it begin?"
+    },
+    "9": {
+     "text": "I heard I'm scheduled to join a team meeting that day. What time will it be held?",
+     "correction": true
+    },
+    "10": {
+     "text": "I was told I need to attend a couple of sessions related to video conferencing. Could you give me more details about them?"
+    }
+   },
+   "intro": "Hi, this is Ralph and I'm planning to attend the new employee training program held on May 5th. Can you answer a couple of questions regarding the program?",
+   "info": "**New Employee Training Program**\nSchedule for Monday, May 5th\n| Time | Schedule |\n|---|---|\n| 9:00 – 10:00 a.m. | Lecture: Effective Video Conferencing and Conference Calls |\n| 10:00 – 11:00 a.m. | Workshop: Team-Based Approaches to Communication |\n| 11:00 a.m. – noon | Social Lunch for New Employees |\n| ~~1:00 – 2:00 p.m.~~ | ~~Team Meetings for New Employees~~ |\n| 2:00 – 3:00 p.m. | Actual Video Conference: New Company Policies and Regulations |\n| 3:00 – 4:00 p.m. | Talk: Building Trust in a Team |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you agree or disagree with the following statement: Schools should stop using letter grades like A, B, or C and give students written comments instead.",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 22,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "How often do you wash your clothes? What time of the day do you usually wash your clothes?"
+    },
+    "6": {
+     "text": "Do you prefer to wash clothes in a washing machine or by hand?"
+    },
+    "7": {
+     "text": "When you purchase a washing machine, which of the following do you consider the most?",
+     "options": [
+      "Whether it is easy to use",
+      "Capacity",
+      "Eco-friendliness"
+     ]
+    }
+   },
+   "intro": "Imagine that a marketing company is doing research in your country. You have agreed to participate in a telephone interview about washing clothes."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "What time does the interview start and where will it be held?"
+    },
+    "9": {
+     "text": "I heard there are two applicants applying for the sales representative position. Is that right?",
+     "correction": true
+    },
+    "10": {
+     "text": "I'd like to know about the applicants from Business Focus. Can you tell me about them?"
+    }
+   },
+   "intro": "Hello, I'm the HR manager at Sullivan Company. I'm planning to interview several candidates applying for positions here. However, I don't have the specific details yet. Could I ask you a few questions about the interview schedule?",
+   "info": "**Sullivan Company Interview Schedule**\nConference Room 105\n| Time | Applicants | Position sought | Current employer |\n|---|---|---|---|\n| 9:00 – 9:20 a.m. | Aidan Butler | Sales representative | Medi International |\n| 9:30 – 9:50 a.m. | Eli Bennett | Business analyst | Business Focus |\n| 10:00 – 10:20 a.m. | Adiran Murphy | Accountant | Prime Accounting |\n| 10:30 – 10:50 a.m. | Scott Gomez | Customer service representative | JK International |\n| ~~11:00 – 11:20 a.m.~~ | ~~Luna Matthews~~ | ~~Sales representative~~ | ~~Wellness Food~~ |\n| 11:30 – 11:50 a.m. | Gloria Bell | Accountant | Business Focus |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you agree or disagree with the following statement: Employees should be allowed to listen to music while working.",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 23,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "Do you enjoy gardening or taking care of plants? Why or why not?"
+    },
+    "6": {
+     "text": "Do you prefer growing flowers or vegetables in your garden?"
+    },
+    "7": {
+     "text": "Should apartment buildings offer shared garden spaces for residents?"
+    }
+   },
+   "intro": "Imagine that a lifestyle magazine is preparing an article. You have agreed to participate in a telephone interview about gardening."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "I was told that one of my colleagues, Jennie Frank, is giving a speech at this seminar. Can you tell me what time she will give a speech and the title of the session?"
+    },
+    "9": {
+     "text": "I have a video conference with my client at 3:00 p.m., so I'm afraid I have to leave after 3:00 p.m. Will I miss any of the sessions?",
+     "correction": true
+    },
+    "10": {
+     "text": "I'm highly interested in learning how to use video editing software. Can you tell me about the sessions that deal with video editing?"
+    }
+   },
+   "intro": null,
+   "info": "**Technology Seminar for New Employees**\nLocation: Conference Room B\nDate: June 20th\n| Time | Session | Presenter |\n|---|---|---|\n| 9:00 – 10:00 a.m. | How to Use Video Editing Software | Jennie Frank |\n| 10:00 – 11:00 a.m. | A Better Use of a Word Processor | Austin Bennett |\n| 11:00 a.m. – noon | Advanced Functions of Video Editing Software | Shelly Brad |\n| noon – 1:00 p.m. | Lunch | — |\n| 1:00 – 2:00 p.m. | Creating a Great PowerPoint | Natalie Steven |\n| 2:00 – 3:00 p.m. | Planning Your Day with Organizer Apps | Fred Barron |\n| 3:00 – 4:00 p.m. | Useful Tips for Windows Users | Jannet Morris |"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "What are the disadvantages of being a leader of a team?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 24,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you had to finish an assignment or project outside your home? Where did you go?"
+    },
+    "6": {
+     "text": "If you had to study for an exam that requires complete concentration, would you choose a small, quiet café or a study room in a public library? Why?"
+    },
+    "7": {
+     "text": "When studying in a group, which of the following is a better option for you?",
+     "options": [
+      "Meeting often to study together",
+      "Studying alone and only meeting sometimes to check your progress"
+     ]
+    }
+   },
+   "intro": "Imagine that you are talking on the telephone with your friend. You are having a conversation about a study group."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "Where and when will the lectures be held?"
+    },
+    "9": {
+     "text": "How can I sign up for the lectures and how much do I have to pay?",
+     "correction": true
+    },
+    "10": {
+     "text": "I have a teenage daughter. Can you tell me about any afternoon session that would be suitable for her?"
+    }
+   },
+   "intro": "Hi, I'm thinking of attending a public lecture with my teenage daughter. However, I don't have detailed information about the event. Could you tell me more about the schedule and how to register?",
+   "info": "**Public Lecture Schedule**\nLocation: Maxwell Lecture Hall\nDate: June 13th\n| Time | Lecture Topic | Target Audience |\n|---|---|---|\n| 10:00 – 11:00 a.m. | How to Focus Better When Studying | Students (Ages 13 – 18) |\n| 11:00 a.m. – noon | Healthy Habits for Busy Adults | Adults |\n| noon – 1:00 p.m. | Lunch Break | — |\n| 1:00 – 2:00 p.m. | How to Use AI Tools in Everyday Life | Students (Ages 17 – 19) |\n| 2:00 – 3:00 p.m. | Smart Money Tips for Young People | Students (Ages 16 – 22) |\n| 3:00 – 4:00 p.m. | Time Management for Working Professionals | Adults |\n- You can register online at our website: www.maxwelllectures.org\n- Full-day registration fee: $25 (Lunch is not included.)"
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "Do you think handwritten letters are still meaningful in today's digital world? Why or why not?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ },
+ {
+  "n": 25,
+  "p2": {
+   "questions": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "p3": {
+   "questions": {
+    "5": {
+     "text": "When was the last time you watched fashion videos and online content? What was it about?"
+    },
+    "6": {
+     "text": "Do you usually check fashion videos or online content for ideas before deciding what to buy?"
+    },
+    "7": {
+     "text": "Which of the following do you usually go to for fashion inspiration?",
+     "options": [
+      "Follow social media influencers",
+      "Ask fashion savvy friends for advice",
+      "Visit popular offline stores and go window shopping"
+     ]
+    }
+   },
+   "intro": "Imagine that a British marketing firm is doing research in your country. You have agreed to participate in a telephone interview about fashion."
+  },
+  "p4": {
+   "questions": {
+    "8": {
+     "text": "When is the musical showcase scheduled, and what time does the first performance begin?"
+    },
+    "9": {
+     "text": "I heard there's an early registration discount. Can you tell me how much discount I can get and how to get it?",
+     "correction": true
+    },
+    "10": {
+     "text": "I'm really interested in family-friendly shows. Could you tell me the details of any musicals that fall under the \"Family\" genre?"
+    }
+   },
+   "intro": "Hi, I'm planning to attend the City Musical Showcase this year to see the performance. But I don't have any details yet. Could you help me with a few questions?",
+   "info": "**City Musical Showcase**\nDate: July 20th\nLocation: Grand City Theater\n| Time | Musical Title | Genre | Hall |\n|---|---|---|---|\n| 10:00 – 11:30 a.m. | Dancing on Air | Romance | Aurora Hall |\n| 12:00 – 1:30 p.m. | Shadows & Light | Thriller | Orion Hall |\n| 2:00 – 3:30 p.m. | Voices of Spring | Family | Stella Hall |\n| 4:00 – 5:30 p.m. | The Last Symphony | Drama | Central Hall |\n| 6:00 – 7:30 p.m. | Keep Going | Family | Phoenix Hall |\n- Ticket Price: $35 for all performances\n- Early Registration: Get $5 off per ticket if you register before July 10th."
+  },
+  "p5": {
+   "questions": {
+    "11": {
+     "text": "If your school decided to switch all textbooks to e-Books, would you support the change? Why or why not?",
+     "tail": "Use specific reasons and examples to support your opinion."
+    }
+   }
+  }
+ }
+]</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const DIRS = {
+ 2:{t:'Questions 3-4: Describe a picture', d:'In this part of the test, you will describe the picture on the screen in as much detail as you can. You will have 45 seconds to prepare your response. Then you will have 30 seconds to speak about the picture.'},
+ 3:{t:'Questions 5-7: Respond to questions', d:'In this part of the test, you will answer three questions. You will have three seconds to prepare after you hear each question. You will have 15 seconds to respond to Questions 5 and 6 and 30 seconds to respond to Question 7.'},
+ 4:{t:'Questions 8-10: Respond to questions using information provided', d:'In this part of the test, you will answer three questions based on the information provided. You will have 45 seconds to read the information before the questions begin. You will have three seconds to prepare and 15 seconds to respond to Questions 8 and 9. You will hear Question 10 two times. You will have three seconds to prepare and 30 seconds to respond to Question 10.'},
+ 5:{t:'Question 11: Express an opinion', d:'In this part of the test, you will give your opinion about a specific topic. Be sure to say as much as you can in the time allowed. You will have 45 seconds to prepare. Then you will have 60 seconds to speak.'}
+};
+const DIR_SEC = 10, INTRO_SEC = 8;
+
+/* ── home state ── */
+let mode='single', chosen=1, parts=new Set([2,3,4,5]);
+const grid=document.getElementById('testgrid');
+for(let i=1;i<=DATA.length;i++){const b=document.createElement('button');b.textContent=i;if(i===1)b.classList.add('on');b.onclick=()=>{chosen=i;[...grid.children].forEach(x=>x.classList.toggle('on',+x.textContent===i));};grid.appendChild(b);}
+function setMode(m){mode=m;document.getElementById('mode-single').classList.toggle('on',m==='single');document.getElementById('mode-mix').classList.toggle('on',m==='mix');grid.classList.toggle('hidden',m==='mix');document.getElementById('mixnote').classList.toggle('hidden',m!=='mix');}
+document.querySelectorAll('#parts button').forEach(b=>b.onclick=()=>{const p=+b.dataset.p;if(parts.has(p)){if(parts.size===1)return;parts.delete(p);}else parts.add(p);b.classList.toggle('on',parts.has(p));});
+function toggle(el){el.classList.toggle('on');}
+const opt=id=>document.getElementById(id).classList.contains('on');
+const show=id=>{['home','test','end'].forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));window.scrollTo(0,0);};
+
+/* ── plan ── */
+function buildPlan(){
+  const steps=[]; const rnd=()=>DATA[Math.floor(Math.random()*DATA.length)];
+  const pick=()=>mode==='mix'?rnd():DATA[chosen-1];
+  for(const p of [2,3,4,5]){ if(!parts.has(p))continue; const t=pick(); const src=t.n;
+    steps.push({type:'dir',part:p});
+    if(p===2){ steps.push({type:'q',part:2,qn:3,src,prep:45,resp:30}); steps.push({type:'q',part:2,qn:4,src,prep:45,resp:30}); }
+    if(p===3){ const P=t.p3; steps.push({type:'intro',part:3,src,text:P.intro});
+      [[5,15],[6,15],[7,30]].forEach(([qn,r])=>steps.push({type:'q',part:3,qn,src,prep:3,resp:r,q:P.questions[qn],intro:P.intro})); }
+    if(p===4){ const P=t.p4; steps.push({type:'info',part:4,src,info:P.info,prep:45});
+      steps.push({type:'intro',part:4,src,text:P.intro,info:P.info});
+      [[8,15],[9,15],[10,30]].forEach(([qn,r])=>steps.push({type:'q',part:4,qn,src,prep:3,resp:r,q:P.questions[qn],info:P.info})); }
+    if(p===5){ const P=t.p5; steps.push({type:'q',part:5,qn:11,src,prep:45,resp:60,q:P.questions[11]}); }
+  }
+  steps.push({type:'end'}); return steps;
+}
+
+/* ── runtime ── */
+let plan=[],lastPlan=null,idx=0,phase='',remain=0,tick=null,paused=false,recs=[],stream=null,mr=null,chunks=[],audio=null,wake=null,startAt=0;
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const inline=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/~~(.+?)~~/g,'<del>$1</del>');
+function md(txt){ const lines=txt.split('\n'); let h='',i=0;
+  while(i<lines.length){ const l=lines[i];
+    if(l.startsWith('|')){ let rows=[]; while(i<lines.length&&lines[i].startsWith('|')){rows.push(lines[i]);i++;}
+      const cells=r=>r.replace(/^\||\|$/g,'').split('|').map(c=>inline(c.trim()));
+      h+='<table>'; rows.forEach((r,k)=>{ if(/^\|[\s\-:|]+\|$/.test(r))return; const tag=k===0?'th':'td'; h+='<tr>'+cells(r).map(c=>`<${tag}>${c}</${tag}>`).join('')+'</tr>'; }); h+='</table>'; continue; }
+    if(l.startsWith('- ')){ h+='<ul>'; while(i<lines.length&&lines[i].startsWith('- ')){h+='<li>'+inline(lines[i].slice(2))+'</li>';i++;} h+='</ul>'; continue; }
+    const isTitle=/^\*\*.+\*\*$/.test(l.trim()) && i===0; h+=`<p${isTitle?' class="t"':''}>${inline(l)}</p>`; i++; }
+  return h; }
+const fmt=s=>'00:'+String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+
+async function startTest(again){
+  plan=(again&&lastPlan)?lastPlan:buildPlan(); lastPlan=plan; idx=0; recs=[]; paused=false; startAt=Date.now();
+  if(opt('opt-rec')){ try{ stream=await navigator.mediaDevices.getUserMedia({audio:true}); }catch(e){ alert('마이크 권한이 없어 녹음 없이 진행한다.'); stream=null; } }
+  if(opt('opt-beep')){ try{ audio=audio||new (window.AudioContext||window.webkitAudioContext)(); await audio.resume(); }catch(e){} }
+  try{ wake=await navigator.wakeLock?.request('screen'); }catch(e){}
+  if(ttsOn()){ try{ speechSynthesis.getVoices(); const u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u);}catch(e){} }
+  show('test'); runStep();
+}
+function beep(n){ if(!audio||!opt('opt-beep'))return; for(let k=0;k<n;k++){ const o=audio.createOscillator(),g=audio.createGain(); o.frequency.value=880; o.connect(g); g.connect(audio.destination); const t=audio.currentTime+k*0.25; g.gain.setValueAtTime(0.25,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.18); o.start(t); o.stop(t+0.2);} }
+
+
+/* ── speech ── */
+let utterCb=null, readTimer=null;
+function ttsOn(){ return opt('opt-tts') && 'speechSynthesis' in window; }
+function pickVoice(){ const vs=speechSynthesis.getVoices(); return vs.find(v=>/en[-_]US/i.test(v.lang)&&/Samantha|Google US|Aria|Jenny|Zira/i.test(v.name))||vs.find(v=>/en[-_]US/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null; }
+function estSec(text){ return Math.ceil((text||'').split(/\s+/).length/2.4)+1; }
+// speak text `times` times, then cb. Falls back to an estimated wait if TTS is off/unavailable.
+function speakThen(text, times, cb){
+  clearTimeout(readTimer); utterCb=cb; let n=0; const t=text||'';
+  if(!ttsOn()){ readTimer=setTimeout(()=>{utterCb=null;cb();}, estSec(t)*1000*times); return; }
+  speechSynthesis.cancel();
+  const go=()=>{ const u=new SpeechSynthesisUtterance(t); u.lang='en-US'; u.rate=0.95; const v=pickVoice(); if(v)u.voice=v;
+    u.onend=()=>{ n++; if(n<times) setTimeout(go,700); else { clearTimeout(readTimer); if(utterCb){utterCb=null;cb();} } };
+    u.onerror=u.onend; speechSynthesis.speak(u); };
+  go();
+  // safety net: if onend never fires (iOS quirk), continue anyway
+  readTimer=setTimeout(()=>{ if(utterCb){ speechSynthesis.cancel(); utterCb=null; cb(); } }, (estSec(t)*times+4)*1000);
+}
+function stopSpeech(){ clearTimeout(readTimer); utterCb=null; if('speechSynthesis' in window) speechSynthesis.cancel(); }
+function setStatus(msg){ const el=document.getElementById('status'); el.textContent=msg||''; el.classList.toggle('hidden',!msg); }
+
+function runStep(){
+  clearInterval(tick); const s=plan[idx]; if(!s||s.type==='end')return finish();
+  const stage=document.getElementById('stage');
+  document.getElementById('bar-l').textContent = mode==='mix' ? 'Mixed' : 'Actual Test '+chosen;
+  const tp=document.getElementById('tm-prep'),tr=document.getElementById('tm-resp');
+  tp.className='tm'; tr.className='tm';
+  const srcTag = (s.src && (mode==='mix')) ? ` <span class="src">· ${s.src}회</span>` : '';
+  if(s.type==='dir'){ document.getElementById('bar-m').textContent='Directions';
+    stage.innerHTML=`<div class="dir"><h3>${esc(DIRS[s.part].t)}</h3><p><b>Directions:</b> ${esc(DIRS[s.part].d)}</p></div>`;
+    document.getElementById('v-prep').textContent=fmt(DIR_SEC); document.getElementById('v-resp').textContent='--:--:--';
+    return countdown('wait',DIR_SEC); }
+  if(s.type==='intro'){ document.getElementById('bar-m').innerHTML=(s.part===3?'Questions 5-7':'Questions 8-10')+' of 11'+srcTag;
+    stage.innerHTML=(s.info?`<div class="info">${md(s.info)}</div>`:'')+introBox(s.text,s.part);
+    document.getElementById('v-prep').textContent='--:--:--'; document.getElementById('v-resp').textContent='--:--:--';
+    return readPhase(s.text, 1, ()=>{ idx++; runStep(); }); }
+  if(s.type==='info'){ document.getElementById('bar-m').innerHTML='Questions 8-10 of 11'+srcTag;
+    stage.innerHTML=`<div class="info">${md(s.info)}</div>`;
+    document.getElementById('v-prep').textContent=fmt(s.prep); document.getElementById('v-resp').textContent='--:--:--';
+    return countdown('prep',s.prep); }
+  if(s.type==='q'){ document.getElementById('bar-m').innerHTML=`Question ${s.qn} of 11`+srcTag;
+    let h='';
+    if(s.part===2) h=`<div class="pic"><div class="en">Look at the picture in the book</div><div class="ref">교재 ${s.src}회 · Q${s.qn}</div><div class="en">사진을 보고 설명하세요</div></div>`;
+    if(s.part===3) h=introBox(s.intro,3)+qHtml(s.q);
+    if(s.part===4) h=`<div class="info">${md(s.info)}</div>`+(opt('opt-showq')?`<div class="qbox"><div class="lab">Q${s.qn} (음성)</div>${qHtml(s.q,true)}</div>`:'');
+    if(s.part===5) h=qHtml(s.q);
+    stage.innerHTML=h;
+    document.getElementById('v-prep').textContent=fmt(s.prep); document.getElementById('v-resp').textContent=fmt(s.resp);
+    if(s.part===2) return countdown('prep',s.prep);
+    const qt=s.q.text+(s.q.options?'. '+s.q.options.join('. '):'');
+    return readPhase(qt, s.qn===10?2:1, ()=>countdown('prep',s.prep)); }
+}
+const introBox=(t,p)=>`<div class="intro"><div class="lab">${p===3?'INTERVIEW SETTING':'CALLER (음성)'}</div>${t?esc(t):'⚠ 도입문 미수록 — 교재 MP3 확인'}</div>`;
+function qHtml(q,small){ let h=`<p class="qtext${small?' small':''}">${esc(q.text)}</p>`;
+  if(q.options) h+='<ul class="opts">'+q.options.map(o=>'<li>'+esc(o)+'</li>').join('')+'</ul>';
+  if(q.tail) h+=`<p class="tail">${esc(q.tail)}</p>`; return h; }
+
+function readPhase(text,times,cb){
+  clearInterval(tick); phase='read'; document.getElementById('btn-next').textContent='건너뛰기 →';
+  document.getElementById('tm-prep').classList.remove('on'); document.getElementById('tm-resp').classList.remove('on');
+  setStatus(ttsOn()?'🔊 읽는 중'+(times>1?' (2회)':''):'⏳ 질문 읽는 시간'+(times>1?' (2회)':''));
+  speakThen(text,times,()=>{ setStatus(''); cb(); });
+}
+function countdown(ph,sec){
+  phase=ph; remain=sec; paint();
+  const tp=document.getElementById('tm-prep'),tr=document.getElementById('tm-resp');
+  tp.classList.toggle('on',ph==='prep'||ph==='wait'); tr.classList.toggle('on',ph==='resp');
+  if(ph==='resp'){ beep(1); startRec(); tr.classList.add('rec'); }
+  clearInterval(tick); let last=Date.now();
+  tick=setInterval(()=>{ if(paused){last=Date.now();return;} const now=Date.now(); if(now-last<1000)return; last+=1000; remain--; paint(); if(remain<=0) endPhase(); },100);
+}
+function paint(){ const el=phase==='resp'?'v-resp':'v-prep'; document.getElementById(el).textContent=fmt(Math.max(0,remain));
+  const tm=document.getElementById(phase==='resp'?'tm-resp':'tm-prep'); tm.classList.toggle('last',remain<=5&&phase!=='wait');
+  document.getElementById('btn-next').textContent = phase==='prep'?'답변 시작 →':(phase==='resp'?'답변 끝 →':'계속 →'); }
+function endPhase(){ clearInterval(tick); const s=plan[idx];
+  if(phase==='read'){ const cb=utterCb; stopSpeech(); setStatus(''); if(cb){cb();return;} idx++; return runStep(); }
+  if(phase==='prep'&&s.type==='q'){ return countdown('resp',s.resp); }
+  if(phase==='resp'){ beep(2); stopRec(); }
+  idx++; runStep(); }
+function skip(){ endPhase(); }
+function togglePause(){ paused=!paused; document.getElementById('btn-pause').textContent=paused?'재개':'일시정지';
+  if(phase==='read'&&'speechSynthesis' in window){ paused?speechSynthesis.pause():speechSynthesis.resume(); } if(mr&&mr.state==='recording'&&paused)mr.pause(); if(mr&&mr.state==='paused'&&!paused)mr.resume(); }
+function quit(){ if(confirm('시험을 종료할까?')){ clearInterval(tick); stopSpeech(); setStatus(''); stopRec(); finish(); } }
+
+function startRec(){ if(!stream)return; chunks=[]; const s=plan[idx];
+  const mt=['audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg'].find(m=>window.MediaRecorder&&MediaRecorder.isTypeSupported(m))||'';
+  try{ mr=new MediaRecorder(stream, mt?{mimeType:mt}:undefined); }catch(e){ mr=null; return; }
+  mr.ondataavailable=e=>{ if(e.data.size)chunks.push(e.data); };
+  mr.onstop=()=>{ const blob=new Blob(chunks,{type:mr.mimeType||mt||'audio/webm'}); recs.push({label:`Q${s.qn}`,src:s.src,part:s.part,step:s,blob,url:URL.createObjectURL(blob),ext:(mr.mimeType||mt).includes('mp4')?'m4a':'webm'}); };
+  mr.start(); }
+function stopRec(){ if(mr&&mr.state!=='inactive')mr.stop(); }
+
+function finish(){ clearInterval(tick); stopSpeech(); setStatus(''); if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;} try{wake&&wake.release();}catch(e){}
+  show('end'); const min=Math.round((Date.now()-startAt)/60000);
+  document.getElementById('btn-retry').classList.toggle('hidden',mode!=='mix');
+  document.getElementById('btn-new').textContent = mode==='mix'?'새로 뽑아서 다시':'같은 설정으로 다시';
+  document.getElementById('end-sub').textContent=(mode==='mix'?'회차 섞기':chosen+'회')+' · '+min+'분 · 녹음 '+recs.length+'개';
+  const list=document.getElementById('reclist');
+  list.innerHTML = recs.length ? recs.map((r,i)=>`<div class="rec"><div class="t">${r.label}<span>Part ${r.part} · ${r.src}회</span></div>${recQ(r.step)}<audio controls src="${r.url}"></audio><a href="${r.url}" download="AT${String(r.src).padStart(2,'0')}_${r.label}.${r.ext}">저장</a></div>`).join('')
+    : '<div class="note">녹음된 답변이 없다. 홈에서 녹음을 켜고 마이크 권한을 허용하면 답변마다 녹음된다.</div>';
+  // wait briefly so the last onstop fires
+  setTimeout(()=>{ if(recs.length && list.children.length!==recs.length) finish(); },400); }
+function recQ(s){ if(!s)return'';
+  if(s.part===2) return `<div class="q">교재 ${s.src}회 · Q${s.qn} 사진</div>`;
+  let h=`<div class="q">${esc(s.q.text)}${s.q.options?'<ul>'+s.q.options.map(o=>'<li>'+esc(o)+'</li>').join('')+'</ul>':''}</div>`;
+  if(s.part===4) h+=`<details><summary>표 보기</summary><div class="info">${md(s.info)}</div></details>`;
+  return h; }
+function goHome(){ show('home'); }
+</script>
+</body>
+</html>
